@@ -1,7 +1,7 @@
 <?php
 
 require_once(__DIR__.'/../src/class/class_builder.php');
-require_once(__DIR__.'/../src/drivers/class_drivers.php');
+require_once(__DIR__.'/../src/class/class_drivers.php');
 
 // generator
 
@@ -23,22 +23,22 @@ $class->load();
 
 $generator = class_drivers::factory();
 
-print_r($generator->css);
+//print_r($generator->php);
 
 
 // builder
 
-$builder = new class_builder();
+$builder = new class_builder($generator->php);
+//$builder = new class_builder($generator->json);
 
 $builder
-        ->type("<?php\nclass")
-        ->name('qlebian')
-        ->extends('hcnx')
-        ->implements('highco')
+        ->name('qlebian_php')
+        //->extends('hcnx')
+        //->implements('highco')
         ->property($class->property())
         ->method($class->method())
         ->load();
 
-//echo $builder->output();
+echo $builder->output();
 
-//$builder->generator()->save();
+$builder->generator()->save();

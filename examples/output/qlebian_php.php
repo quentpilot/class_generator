@@ -1,5 +1,5 @@
 <?php
-class qlebian 
+class qlebian_php 
 {
 	public $name = NULL;
 

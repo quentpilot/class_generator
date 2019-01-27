@@ -22,6 +22,7 @@ interface iclass_generator
   public function method();
   public function result();
   public function save();
+  public function feed();
   public function set_type();
   public function set_name();
   public function set_extends();
@@ -146,6 +147,23 @@ class class_generator implements iclass_generator
       return file_put_contents($filename, $this->result());
     }
 
+    return FALSE;
+  }
+
+  public function feed($generator = NULL)
+  {
+    if ($generator instanceof iclass_generator)
+    {
+      $this->name = $generator->name;
+      $this->type = $generator->type;
+      $this->extends = $generator->extends;
+      $this->implements = $generator->implements;
+      $this->property = $generator->property;
+      $this->method = $generator->method;
+      $this->path = $generator->path;
+
+      return TRUE;
+    }
     return FALSE;
   }
 

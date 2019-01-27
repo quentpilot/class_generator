@@ -23,7 +23,7 @@ class class_drivers implements iclass_drivers
   public function __construct($drivers = array(), $path = NULL)
   {
     $this->drivers = $drivers;
-    $this->path = empty($path) ? __DIR__.'/' : $path;
+    $this->path = empty($path) ? __DIR__.'/../drivers/' : $path;
     $this->forbidden = array('drivers', 'path', 'forbidden');
   }
 
@@ -144,7 +144,7 @@ class class_drivers implements iclass_drivers
   public function scan(&$files = array())
   {
     $files = scandir($this->path);
-    $forbidden = array('.', '..', 'class_drivers.php');
+    $forbidden = array('.', '..');
 
     if (!empty($files))
     {
