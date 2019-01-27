@@ -15,9 +15,9 @@ class qlebian extends hcnx implements highco
 			return $this->name;
 	}
 
-	public function get_value($name)
+	public function get_value($value)
 	{
-			return $this->name;
+			return $this->value;
 	}
 
 	

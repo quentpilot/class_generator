@@ -50,6 +50,8 @@ class class_generator implements iclass_generator
 
   protected $method = NULL;
 
+  protected $path = NULL;
+
 
   public function __construct($name = NULL, $extends = NULL, $implements = NULL, $type = NULL)
   {
@@ -59,6 +61,7 @@ class class_generator implements iclass_generator
     $this->implements = $implements;
     $this->property = new class_property();
     $this->method = new class_method();
+    $this->path = __DIR__.'/../../examples/output/';
   }
 
   public function prepare()
@@ -135,10 +138,15 @@ class class_generator implements iclass_generator
 
   public function save($path = NULL)
   {
-    $path = (empty($path)) ? __DIR__.'/../../examples/output/' : $path;
+    $path = (empty($path)) ? $this->path : $path;
     $filename = $path . $this->name.'.php';
 
-    return file_put_contents($filename, $this->result());
+    if (file_exists($path))
+    {
+      return file_put_contents($filename, $this->result());
+    }
+
+    return FALSE;
   }
 
   public function set_type($type = NULL)
