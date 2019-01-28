@@ -4,6 +4,7 @@ require_once('class_generator.php');
 
 interface iclass_builder
 {
+  public function load_all();
   public function load();
   public function name();
   public function type();
@@ -28,10 +29,41 @@ class class_builder implements iclass_builder
                      : new class_generator();
   }
 
-  public function load()
+  public function load(&$classes = array())
   {
-    $this->generator()->load();
+    if (!empty($classes) && is_array($classes))
+    {
+      foreach ($classes as $it => &$class)
+      {
+        if (is_array($class) || $class instanceof iclass_generator)
+        {
+          $this->generator()->factory($class);
+          $this->output .= $class->load();
+        }
+      }
+    }
+    else
+    {
+      $this->generator()->load();
+    }
     return $this;
+  }
+
+  public function load_all(&$classes = array())
+  {
+    if (!empty($classes) && is_array($classes))
+    {
+      foreach ($classes as $it => &$class)
+      {
+        if (is_array($class) || $class instanceof iclass_generator)
+        {
+          $this->generator()->factory($class);
+          $this->output .= $class->load();
+        }
+      }
+      return TRUE;
+    }
+    return FALSE;
   }
 
   public function name($name = NULL)
@@ -99,7 +131,10 @@ class class_builder implements iclass_builder
 
   public function output()
   {
-    $this->output = $this->generator()->result();
+    if (empty($this->output))
+    {
+      $this->output = $this->generator()->result();
+    }
     return $this->output;
   }
 }

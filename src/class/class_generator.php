@@ -18,6 +18,7 @@ interface iclass_generator
 {
   public function prepare();
   public function load();
+  public static function factory();
   public function property();
   public function method();
   public function result();
@@ -110,6 +111,15 @@ class class_generator implements iclass_generator
     return $this->result(implode("\n\t", $output));
   }
 
+  public static function factory(&$class = array())
+  {
+    $classname = get_called_class();
+    $generator = new $classname();
+    $generator->feed($class);
+    $class = $generator;
+    return $generator;
+  }
+
   public function property($property = NULL)
   {
     if ($property instanceof class_property)
@@ -152,16 +162,15 @@ class class_generator implements iclass_generator
 
   public function feed($generator = NULL)
   {
-    if ($generator instanceof iclass_generator)
+    if ($generator instanceof iclass_generator || is_array($generator))
     {
-      $this->name = $generator->name;
-      $this->type = $generator->type;
-      $this->extends = $generator->extends;
-      $this->implements = $generator->implements;
-      $this->property = $generator->property;
-      $this->method = $generator->method;
-      $this->path = $generator->path;
-
+      foreach ($generator as $name => $value)
+      {
+        if (property_exists($this, $name))
+        {
+          $this->{$name} = $value;
+        }
+      }
       return TRUE;
     }
     return FALSE;

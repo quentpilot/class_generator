@@ -14,7 +14,7 @@ $class->method()->add('__construct', array('params' => '$name = NULL', 'body' =>
 $class->method()->add('get_name', array('params' => '$name', 'body' => 'return $this->name;'));
 $class->method()->add('get_value', array('params' => '$value', 'body' => 'return $this->value;'));
 
-$class->load();
+//$class->load();
 
 //echo $class->result();
 
@@ -28,17 +28,32 @@ $generator = class_drivers::factory();
 
 // builder
 
+//$builder = new class_builder();
 $builder = new class_builder($generator->php);
 //$builder = new class_builder($generator->json);
 
-$builder
-        ->name('qlebian_php')
-        //->extend('hcnx')
-        //->implement('highco')
-        ->property($class->property())
-        ->method($class->method())
-        ->load();
+// $builder
+//         ->name('qlebian_php')
+//         ->extend('hcnx')
+//         ->implement('highco')
+//         ->property($class->property())
+//         ->method($class->method());
+//         ->load();
+
+$my_class = class_generator::factory($class);
+$your_class = class_generator::factory($class);
+$their_class = array('name' => 'TheirClass');
+$your_class->name = 'YourClass';
+
+$classes = array(&$my_class, &$your_class, &$their_class);
+
+$builder->load($classes);
 
 echo $builder->output();
 
-$builder->generator()->save();
+foreach ($classes as $class)
+{
+  $class->save();
+}
+
+//$builder->generator()->save();
