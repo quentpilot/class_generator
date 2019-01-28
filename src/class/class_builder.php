@@ -7,8 +7,8 @@ interface iclass_builder
   public function load();
   public function name();
   public function type();
-  public function extends();
-  public function implements();
+  public function extend();
+  public function implement();
   public function property();
   public function method();
   public function generator();
@@ -52,7 +52,7 @@ class class_builder implements iclass_builder
     return $this;
   }
 
-  public function extends($extends = NULL)
+  public function extend($extends = NULL)
   {
     if (!empty($extends))
     {
@@ -61,7 +61,7 @@ class class_builder implements iclass_builder
     return $this;
   }
 
-  public function implements($implements = NULL)
+  public function implement($implements = NULL)
   {
     if (!empty($implements))
     {

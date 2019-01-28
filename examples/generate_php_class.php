@@ -33,8 +33,8 @@ $builder = new class_builder($generator->php);
 
 $builder
         ->name('qlebian_php')
-        //->extends('hcnx')
-        //->implements('highco')
+        //->extend('hcnx')
+        //->implement('highco')
         ->property($class->property())
         ->method($class->method())
         ->load();
